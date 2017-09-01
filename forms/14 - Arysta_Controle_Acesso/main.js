@@ -17,7 +17,8 @@ var ARYForms = {
 
 		},
 		onEdit: function(params) {  //Edição do formulário
-
+			
+			
 
 
 
@@ -94,6 +95,10 @@ var ARYForms = {
 			var WKNumState = params.WKNumState;
 
 			if(WKNumState == 0 || WKNumState == 5  ){
+				
+				console.log($("#tabela_conflitos tr").length);
+				
+
 
 
 
@@ -189,27 +194,24 @@ var ARYForms = {
 								$("#codModulo___"+indice).val(dsGrupoProg.values[e]['DESCRIPTION_MODULO']);
 							}
 						
-
 					}
 
 				});
 
-
 				var coduser = $("#idUsuario").val();
-
-
 				var c4 = DatasetFactory.createConstraint('cod_usuario',coduser,coduser, ConstraintType.MUST);
 				var dsConflitos = DatasetFactory.getDataset('ARY-sql2dataset-programa-conflito-inclusao2', null, [c4],null);
 
 				//$("#countConf").html(dsConflitos.values.length);
-
-
+								
 				if(dsConflitos.values.length == '0'){
 					$(".semAcesso").show();
 					$(".hideTabela").hide();
+					$("#temConflito").val("nao");
 				}else{
 					$(".semAcesso").hide();
 					$(".hideTabela").show();
+					$("#temConflito").val("sim");
 				}
 
 				var linha = 0;
@@ -217,7 +219,7 @@ var ARYForms = {
 					linha = i + 1;
 					wdkAddChild('tabela_conflitos');
 					console.log("ENTROU NO IF "+ linha);
-
+					
 					$("#appConflitoC___"+linha).val(dsConflitos.values[i]['APPMAIN']);
 					$("#descConflitoC___"+linha).val(dsConflitos.values[i]['APPCONFLITO']);
 					$("#descMainC___"+linha).val(dsConflitos.values[i]['DESCCONFLITO']);
@@ -431,7 +433,7 @@ function concatenaDesc(){
 	$('input[id^="grupoCod___"]').each(function(x){
 		var context = $(this);
 		var linha = context.attr('id').split("___")[1];
-		arr.push($("#grupoGestor___" + linha).val());  
+		arr.push($("#gestorHide___" + linha).val());  
 
 		var contador = arr.length;
 
@@ -440,3 +442,5 @@ function concatenaDesc(){
 	$("#cont_aprovador").val(arr);
 
 }
+
+
