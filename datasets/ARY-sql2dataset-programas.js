@@ -16,6 +16,17 @@ function createDataset(fields, constraints, sortFields) {
 	
 	var cod_program = findConstraint("cod_program",constraints,"");
 	
+	var description_program = findConstraint("description_program",constraints,"");
+	
+	
+	log.info("### indice   :" + indice);
+	log.info("### cod_usuario   :" + cod_usuario);
+	log.info("### cod_grupo   :" + cod_grupo);
+	log.info("### cod_modulo   :" + cod_modulo);
+	log.info("### cod_program   :" + cod_program);
+	log.info("### description_program   :" + description_program);
+	
+	
 	var arq = arqMarvinLoad("v1", {
 		sql: "com.arquimeda.marvin.server.js.Sql-v1"
 	});
@@ -40,9 +51,10 @@ function createDataset(fields, constraints, sortFields) {
 		log.info("*** cod_grupo: "+ cod_grupo);
 		log.info("*** indice: "+ indice);
 		script = "select * from (SELECT prog.cod_program, prog.description_program, prog.cod_modulo, prog.description_modulo, prog.obs_upc, prog.descricao_rotina, rownum as rownum_ FROM z_ary_programs prog " +
-				 "INNER JOIN z_ary_grupo_programa grupo " +
-			     	 "on grupo.programa = prog.cod_program " +
-			     "WHERE grupo.cod_grupo LIKE '%"+ cod_grupo + "%') "+
+								 "INNER JOIN z_ary_grupo_programa grupo " +
+							     	 "on grupo.programa = prog.cod_program " +
+							     "WHERE grupo.cod_grupo LIKE '%"+ cod_grupo + "%' " +
+							     "ORDER BY prog.description_modulo ASC, prog.descricao_rotina ASC, prog.description_program ASC)  "+
 			     "where rownum_ between ("+indice+" +1) and ("+indice+" + 20)"; 
 	}
 	if (cod_modulo != ""){
@@ -52,6 +64,10 @@ function createDataset(fields, constraints, sortFields) {
 	if (cod_program != ""){
 		script = "SELECT cod_program, description_program, obs_upc FROM z_ary_programs WHERE cod_program LIKE '%"+ cod_program + "%' ";
 	}
+	if (description_program != ""){
+		script = "SELECT cod_program, description_program, obs_upc FROM z_ary_programs WHERE description_program LIKE '%"+ description_program + "%' ";
+	}
+	
 	log.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 	log.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 	log.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');

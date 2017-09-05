@@ -25,6 +25,8 @@ function createDataset(fields, constraints, sortFields) {
    // for(var i = 0;i<1;i++){
          var cod_usuario = dsUsuarios.getValue(i,'cod_usuario');
          log.info("@@@ DENTRO DO DATASET : "+ cod_usuario);
+         
+         if(cod_usuario == 'ibarbosa' || cod_usuario == 'pmsantos' ){
         
          var c1 = DatasetFactory.createConstraint("cod_usuario", cod_usuario, cod_usuario, ConstraintType.MUST);
          var dsUsuariosGrupo = DatasetFactory.getDataset('ARY-sql2dataset-usuario-grupos', null, [c1],null);
@@ -61,9 +63,7 @@ function createDataset(fields, constraints, sortFields) {
             cardData.getItem().add(itemForm7);
             log.info("@@ log7");
             
-            
-            
-            
+                     
              var itemForm2 = workflowEngineServiceProvider.instantiate("net.java.dev.jaxb.array.StringArray");
             itemForm2.getItem().add("gestorUsuario");
             itemForm2.getItem().add(dsUsuarios.getValue(i,'GEST'));
@@ -76,9 +76,7 @@ function createDataset(fields, constraints, sortFields) {
             cardData.getItem().add(itemForm6);
             log.info("@@ log7");
             
-            
-  
-            
+
             for(var f=0;f<dsUsuariosGrupo.rowsCount;f++){
                 var a = f+1;
                 var itemForm3 = workflowEngineServiceProvider.instantiate("net.java.dev.jaxb.array.StringArray");
@@ -121,15 +119,12 @@ function createDataset(fields, constraints, sortFields) {
                 
             
             // Cria uma solicitação com os dados obtidos
-            workflowEngineService.startProcess("admin", "adm", 1, "ARY-Revisao_de_acessos", 0, colleaguesId, "Comentário: ", "admin", true, processAttachmentDtoArray, cardData, appointment, false);
+            workflowEngineService.startProcess("admin", "adm", 1, "Aryzta_Controle_Acessos", 0, colleaguesId, "Comentário: ", "admin", true, processAttachmentDtoArray, cardData, appointment, false);
             log.info("@@ INICIO O PROCESSO");
             log.info("@@ 9");
-             
-             
-             
-             
          
              log.info("** FIM DO FOR");
+         }    
          
      }
     
